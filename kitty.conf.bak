@@ -26,10 +26,10 @@
 # font_size 13.5
 font_size 12
 # font_size 21
-# font_family          Maple Mono NF CN ExtraLight
-# bold_font            Maple Mono NF CN Bold
-# italic_font          Maple Mono NF CN Italic
-# bold_italic_font     Maple Mono NF CN Bold Italic
+font_family          Maple Mono NF CN ExtraLight
+bold_font            Maple Mono NF CN Bold
+italic_font          Maple Mono NF CN Italic
+bold_italic_font     Maple Mono NF CN Bold Italic
 font_features        MapleMono-NF-CN-ExtraLight +cv01 +ss02 +ss04 +ss05 +zero
 font_features        MapleMono-NF-CN-Bold +cv01 +ss02 +ss04 +ss05 +zero
 font_features        MapleMono-NF-CN-Italic +cv01 +ss02 +ss04 +ss05 +zero
@@ -1122,8 +1122,8 @@ inactive_tab_font_style normal
 #: The foreground and background colors.
 
 # background_opacity 1.0
-background_opacity 0.9
-background_blur 60
+background_opacity 1.0
+# background_blur 30
 
 #: The opacity of the background. A number between zero and one, where
 #: one is opaque and zero is fully transparent. This will only work if
@@ -2413,16 +2413,7 @@ map kitty_mod+f11 toggle_fullscreen
 
 # BEGIN_KITTY_THEME
 # 3024 Night
-# include current-theme.conf
-include Catppuccin-Mocha.conf
+include current-theme.conf
 # END_KITTY_THEME
 
 # }}} 设置主题
-
-
-# BEGIN_KITTY_FONTS
-font_family      family='Maple Mono NF CN' postscript_name=MapleMono-NF-CN-ExtraLight
-bold_font        family='Maple Mono NF CN' postscript_name=MapleMono-NF-CN-Bold
-italic_font      family='Maple Mono NF CN' postscript_name=MapleMono-NF-CN-Italic
-bold_italic_font family='Maple Mono NF CN' postscript_name=MapleMono-NF-CN-BoldItalic
-# END_KITTY_FONTS
