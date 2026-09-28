@@ -1,0 +1,72 @@
+# Kitty Custom Shader：Animation events 全事件中文参考模板。
+#
+# Animation events 不是独立的 Kitty 配置类型，而是 .pipeline 中
+# animation_start/animation_stop 指令可使用的事件值。本文件不在 custom_shaders
+# 中，因此不会影响当前效果；底部提供一组可通过解析的演示配置。
+
+# --------------------------- 全部可用事件名 ---------------------------
+
+# pointer-left-button-press
+#   在 OS 窗口内按下鼠标左键时触发；按下位置位于 d.mouse_pos.zw。
+
+# os-window-focus-in
+#   OS 窗口获得焦点时触发；pipeline 首次加载后的第一帧也会触发。
+
+# os-window-focus-out
+#   OS 窗口失去焦点时触发。
+
+# window-focus-in
+#   当前标签页中某个 Kitty 窗格成为活动窗口时触发；其区域位于
+#   d.active_window_geometry。
+
+# window-focus-out
+#   某个 Kitty 窗格失去活动窗口状态时触发。
+
+# tab-change
+#   活动标签页发生变化时触发。
+
+# bell-in-window
+#   任一窗口收到 BEL 时触发；最近响铃窗口区域位于 d.bell_window_geometry。
+#   若该窗口当前不可见，则该值等于 d.central_area。
+
+# user-activity
+#   收到任意键盘或鼠标输入时触发。
+
+# user-idle
+#   用户空闲达到 Kitty 内部阈值时触发。
+
+# cursor-trail-move
+#   光标拖尾开始移动时触发，需要 kitty.conf 启用 cursor_trail。使用该事件的
+#   shader 会接管拖尾绘制，并抑制 Kitty 内置拖尾渲染。
+
+# cursor-trail-stop
+#   光标拖尾停止移动时触发，通常与 cursor-trail-move 配对作为停止条件。
+
+# ---------------------------- 指令使用规则 ----------------------------
+
+# animation_start <事件>[ | <事件> ...]
+#   任一列出的事件发生即启动该组；省略时该组每帧无条件运行。
+
+# animation_stop <事件/毫秒/never>[ | ...]
+#   事件：事件发生时停止。
+#   毫秒：到达该时长后停止，并让 animation_progress 平滑到 1。
+#   never：不按时长自动停止，只等待显式停止事件。
+
+# animation_curve <曲线>
+#   命名曲线：linear、ease、ease-in、ease-out、ease-in-out、step-start、step-end。
+#   函数曲线：cubic-bezier(x1,y1,x2,y2)、linear(p0,p1,...)、steps(n,start|end)。
+
+# animation_step <毫秒>
+#   动画帧间隔；默认 50。0 表示静态、按内容或事件变化重绘。
+
+# 若启动事件和 focus-out 停止事件同一帧发生，focus-out 优先，动画不会重启。
+
+# ----------------------------- 有效演示组 ------------------------------
+
+startgroup
+    animation_start pointer-left-button-press | os-window-focus-in | window-focus-in | tab-change | bell-in-window | user-activity | cursor-trail-move
+    animation_stop os-window-focus-out | window-focus-out | user-idle | cursor-trail-stop | 1500
+    animation_curve ease-out
+    animation_step 16
+    shaders reference-shader-part
+endgroup

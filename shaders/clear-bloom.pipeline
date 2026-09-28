@@ -1,0 +1,32 @@
+# Kitty 内置 bloom shader 的清晰版参数配置。
+#
+# 官方 bloom.slang 当前只公开下面两个可覆盖的视觉参数：
+#   BLOOM_THRESHOLD 与 BLOOM_STRENGTH。
+# Bloom 在 Kitty 完成文字渲染后处理整张画面，因此不能识别普通/粗体字符，
+# 也无法仅针对粗体设置不同参数。
+#
+# 修改后可按 Ctrl+Shift+F5 重载 Kitty 配置。
+
+startgroup
+    # 重绘间隔，单位为毫秒。
+    # 0：静态效果，仅在终端内容或 shader 事件变化时重绘，最适合 bloom。
+    # 正数：按指定间隔周期重绘；bloom 本身没有动画，通常只会增加 GPU 开销。
+    animation_step 0
+
+    # 发光亮度阈值：只有亮度达到该值的像素才参与 Bloom。
+    # 值越高：参与发光的像素越少，文字边缘越清晰，但 Bloom 也越不明显。
+    # 值越低：更多像素及抗锯齿边缘参与发光，效果更明显，也更容易模糊粗体。
+    # 官方默认值：0.2；实用微调范围：0.2～0.6。
+    var float BLOOM_THRESHOLD = 0.03
+
+    # 发光叠加强度：控制周围采样像素叠加到当前像素上的强度。
+    # 值越高：光晕越强、越容易使文字模糊或过曝。
+    # 值越低：文字越清晰；设为 0 会实际关闭 Bloom 的光晕贡献。
+    # 官方默认值：0.2；清晰文字建议从 0.02～0.05 之间开始微调。
+    var float BLOOM_STRENGTH = 0.12
+
+    # 调用 Kitty 内置的 bloom.slang shader。
+    # Bloom 的采样数量和扩散半径目前写死在该 shader 中，没有可由 pipeline
+    # 覆盖的 RADIUS、SAMPLE_COUNT 或仅针对粗体的参数。
+    shaders bloom
+endgroup
